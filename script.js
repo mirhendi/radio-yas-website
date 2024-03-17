@@ -59,10 +59,10 @@ playBtn.onclick = function() {
   console.log('play button clicked')
   if (audioPlayer.paused) {
     audioPlayer.play();
-    playBtn.innerHTML = '<img id="play-pause-logo" src="pause.svg" alt="Play/Pause">';
+    playBtn.innerHTML = '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
   } else {
     audioPlayer.pause();
-    playBtn.innerHTML = '<img id="play-pause-logo" src="play.svg" alt="Play/Pause">';
+    playBtn.innerHTML = '<img id="play-pause-logo" src="assets/play.svg" alt="Play/Pause">';
   }
 }
 volumeBtn.onclick = function() {
@@ -70,24 +70,24 @@ volumeBtn.onclick = function() {
   console.log('volume button clicked')
   if (audioPlayer.muted) {
     audioPlayer.muted = false;
-    volumeBtn.innerHTML = '<img id="volume-logo" src="vol-low.svg" alt="Volume">';
+    volumeBtn.innerHTML = '<img id="volume-logo" src="assets/vol-low.svg" alt="Volume">';
     audioPlayer.volume = 0.3;
   } else {
-    if(volumeBtn.innerHTML === '<img id="volume-logo" src="vol-low.svg" alt="Volume">') {
-      volumeBtn.innerHTML = '<img id="volume-logo" src="vol-med.svg" alt="Volume">';
+    if(volumeBtn.innerHTML === '<img id="volume-logo" src="assets/vol-low.svg" alt="Volume">') {
+      volumeBtn.innerHTML = '<img id="volume-logo" src="assets/vol-med.svg" alt="Volume">';
       audioPlayer.volume = 0.6;
-    } else if (volumeBtn.innerHTML === '<img id="volume-logo" src="vol-med.svg" alt="Volume">') {
-      volumeBtn.innerHTML = '<img id="volume-logo" src="vol-high.svg" alt="Volume">';
+    } else if (volumeBtn.innerHTML === '<img id="volume-logo" src="assets/vol-med.svg" alt="Volume">') {
+      volumeBtn.innerHTML = '<img id="volume-logo" src="assets/vol-high.svg" alt="Volume">';
       audioPlayer.volume = 1.0;
     } else {
       audioPlayer.muted = true;
-      volumeBtn.innerHTML = '<img id="volume-logo" src="vol-mute.svg" alt="Volume">';
+      volumeBtn.innerHTML = '<img id="volume-logo" src="assets/vol-mute.svg" alt="Volume">';
     }
   }
 }
-// infoBtn.onclick = function() {
-//   modal.style.display = "block";
-// }
+infoBtn.onclick = function() {
+  modal.style.display = "block";
+}
 
 
 span.onclick = function() {
