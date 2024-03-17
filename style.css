@@ -29,8 +29,9 @@ body {
 .button-container {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
-  padding-top: 100px;
+  padding-top: 30px;
   padding-bottom: 30px;
 }
 
@@ -41,10 +42,19 @@ body {
   width: 100%;
 }
 
+.location-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+
 .logo {
   width: 200px; /* adjust as needed */
   height: 200px; /* adjust as needed */
-  border-radius: 10px;
+  border-radius: 50px;
 }
 
 .logo-continer {
@@ -69,8 +79,8 @@ body {
 
 .play-button {
   /* border-radius: 50%; */
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background: none;
   border: none; 
 }
@@ -81,6 +91,13 @@ body {
   height: 50px;
   background: none;
   border: none; 
+}
+
+h1 {
+  font-family: 'Tahoma', sans-serif;
+  font-size: 30px;
+  color: #BF0844;
+
 }
 
 #volume-logo {
@@ -136,4 +153,34 @@ body {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+/* 
+@font-face {
+  font-family: 'Inter';
+  src: url('/path/to/inter.woff2') format('woff2'),
+       url('/path/to/inter.woff') format('woff');
+  /* Add more font formats if necessary */
+  /* Specify the path to the font files */
+  /* Make sure to replace '/path/to/' with the actual path */
+/* }  */
+
+/* for city drop down make the font color BF0844 and 
+backgraound D9D9D9 with 50% don't show drop down pointer 
+the fond of this should be Inter size 32*/
+
+.dropdown {
+  /* Use the Inter font in your CSS rules */
+  .selector {
+    font-family: 'Inter', sans-serif;
+  }
+  font-size: 12px;
+  color: #BF0844;
+  background-color: #D9D9D9;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  /* width: 100%; */
+  text-align: center;
+  margin-bottom: 20px;
 }

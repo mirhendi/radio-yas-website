@@ -4,31 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>رادیو یاس</title>
+    <link rel="icon" href="logo.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <!-- FILEPATH: /c:/Users/msheykholeslam/workspace/radio-yas/radio.html -->
   <!-- This is the starting point of the HTML document -->
   <body>
   <body>
+    <!-- add location logo beside the selected value option of the dropdown -->
     <div class="player-container">
       <div class="header-container">
-        <select id="city-dropdown" class="dropdown">
-          <option value="Ottawa">اوتاوا (ON)</option>
-          <option value="St. John's">سینت جانز (NL)</option>
-          <option value="Windsor">ویندزور (ON)</option>
-        </select>
+        <h1>رادیو یاس</h1>
         <button id="info-button" class="round-button">i</button>
       </div>
       <div class="logo-continer">
-        <img class="logo" src="logo.png" alt="Logo" />
+        <img class="logo" src="logo-main.png" alt="Logo" />
       </div>
-      <div class="time-remaining">
+      <!-- <div class="time-remaining">
         <span id="time-left" class="Text">03:00</span>
         <text class="Text">تا اذان صبح</text>
-      </div>
+      </div> -->
       <audio id="audio-player" controls autoplay>
-        <source
-          src="https://azuracast.radio-yas.com:8000/radio.mp3"
+        <!-- by default get source from local storage otherwise set to ottawa -->
+      
+        <source id="audio-source"
+          src=""
           type="audio/mpeg"
         />
         Your browser does not support the audio element.
@@ -41,6 +41,13 @@
         <button id="play-pause-button" class="play-button">
           <img id="play-pause-logo" src="play.svg" alt="Play/Pause" />
         </button>
+      </div>
+      <div class="location-container">
+        <select id="city-dropdown" class="dropdown">
+          <option value="ottawa">اوتاوا (ON)</option>
+          <option value="st-johns">سینت جانز (NL)</option>
+          <option value="windsor">ویندزور (ON)</option>
+        </select>
       </div>
     </div>
     <div id="info-modal" class="modal">

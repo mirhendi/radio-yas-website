@@ -45,10 +45,14 @@ getCurrentSong(); // Fetch and play the current song on page load
 // Optional: Add event listeners for user interactions (e.g., play/pause, volume control)
 
 var modal = document.getElementById("info-modal");
-var btn = document.getElementById("info-button");
+var infoBtn = document.getElementById("info-button");
 var span = document.getElementById("close-button");
 var playBtn = document.getElementById("play-pause-button");
 var volumeBtn = document.getElementById("volume-button");
+
+var ottawaLink = "https://azuracast.radio-yas.com:8000/radio.mp3"
+var windsorLink = "https://azuracast.radio-yas.com:8010/radio.mp3"
+var stJohnsLink = "https://azuracast.radio-yas.com:8030/radio.mp3"
 
 playBtn.onclick = function() {
   // change the icon to pause or vice versa
@@ -81,9 +85,9 @@ volumeBtn.onclick = function() {
     }
   }
 }
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+// infoBtn.onclick = function() {
+//   modal.style.display = "block";
+// }
 
 
 span.onclick = function() {
@@ -94,4 +98,50 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+}
+
+// on city-dropdown change event if the value is ottawa set 
+// the audio player source to ottawaLink
+// else if the value is windsor set the audio player source to windsorLink
+// else if the value is st-johns set the audio player source to stJohnsLink
+document.getElementById('city-dropdown').addEventListener('change', function() {
+  console.log('city changed:', this.value)
+  var playing = !audioPlayer.paused;
+  if(this.value === 'ottawa') {
+    audioPlayer.src = ottawaLink;
+    audioPlayer.load();
+    if(playing)
+      audioPlayer.play();
+    // store to local storage
+    localStorage.setItem('city', 'ottawa');
+  } else if(this.value === 'windsor') {
+    audioPlayer.src = windsorLink;
+    audioPlayer.load();
+    if(playing)
+      audioPlayer.play();
+    localStorage.setItem('city', 'windsor');
+  } else if(this.value === 'st-johns') {
+    audioPlayer.src = stJohnsLink;
+    audioPlayer.load();
+    if(playing)
+      audioPlayer.play();
+    localStorage.setItem('city', 'st-johns');
+  }
+  console.log('audio player source:', audioPlayer.src)
+});
+
+// on page load check if the local storage has a city value
+// if it does set the dropdown to that value
+// else set the dropdown to ottawa
+// and set the audio player source to based on the value of city
+if(localStorage.getItem('city')) {
+  document.getElementById('city-dropdown').value = localStorage.getItem('city');
+  if(localStorage.getItem('city') === 'windsor') {
+    audioPlayer.src = windsorLink;
+  } else if(localStorage.getItem('city') === 'st-johns') {
+    audioPlayer.src = stJohnsLink;
+  } else {
+    audioPlayer.src = ottawaLink;
+  }
+  console.log('audio player source:', audioPlayer.src)
 }
