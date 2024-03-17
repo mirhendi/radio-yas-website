@@ -54,15 +54,24 @@ var ottawaLink = "https://azuracast.radio-yas.com:8000/radio.mp3"
 var windsorLink = "https://azuracast.radio-yas.com:8010/radio.mp3"
 var stJohnsLink = "https://azuracast.radio-yas.com:8030/radio.mp3"
 
+const pausePlayer = () => {
+  audioPlayer.pause();
+  playBtn.innerHTML = '<img id="play-pause-logo" src="assets/play.svg" alt="Play/Pause">';
+}
+
+const playPlayer = () => {
+  audioPlayer.load();
+  audioPlayer.play();
+  playBtn.innerHTML = '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
+}
+
 playBtn.onclick = function() {
   // change the icon to pause or vice versa
   console.log('play button clicked')
   if (audioPlayer.paused) {
-    audioPlayer.play();
-    playBtn.innerHTML = '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
+    playPlayer();  
   } else {
-    audioPlayer.pause();
-    playBtn.innerHTML = '<img id="play-pause-logo" src="assets/play.svg" alt="Play/Pause">';
+    pausePlayer();
   }
 }
 volumeBtn.onclick = function() {
@@ -106,25 +115,20 @@ window.onclick = function(event) {
 // else if the value is st-johns set the audio player source to stJohnsLink
 document.getElementById('city-dropdown').addEventListener('change', function() {
   console.log('city changed:', this.value)
+  pausePlayer();
   var playing = !audioPlayer.paused;
   if(this.value === 'ottawa') {
     audioPlayer.src = ottawaLink;
     audioPlayer.load();
-    if(playing)
-      audioPlayer.play();
     // store to local storage
     localStorage.setItem('city', 'ottawa');
   } else if(this.value === 'windsor') {
     audioPlayer.src = windsorLink;
     audioPlayer.load();
-    if(playing)
-      audioPlayer.play();
     localStorage.setItem('city', 'windsor');
   } else if(this.value === 'st-johns') {
     audioPlayer.src = stJohnsLink;
     audioPlayer.load();
-    if(playing)
-      audioPlayer.play();
     localStorage.setItem('city', 'st-johns');
   }
   console.log('audio player source:', audioPlayer.src)
