@@ -1,5 +1,4 @@
 const audioPlayer = document.getElementById('audio-player');
-const songTitleElement = document.getElementById('song-title');
 const playlistItems = document.getElementById('playlist-items');
 
 // AWS S3 Configuration (replace with your credentials and bucket details)
@@ -49,6 +48,7 @@ var infoBtn = document.getElementById("info-button");
 var span = document.getElementById("close-button");
 var playBtn = document.getElementById("play-pause-button");
 var volumeBtn = document.getElementById("volume-button");
+var playingTitle = document.getElementById("playing-title");
 
 var ottawaLink = "https://azuracast.radio-yas.com:8000/radio.mp3"
 var windsorLink = "https://azuracast.radio-yas.com:8010/radio.mp3"
@@ -63,6 +63,7 @@ const playPlayer = () => {
   audioPlayer.load();
   audioPlayer.play();
   playBtn.innerHTML = '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
+  // playingTitle.innerHTML = audioPlayer.src.split('/').pop();
 }
 
 playBtn.onclick = function() {
