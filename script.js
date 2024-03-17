@@ -116,21 +116,18 @@ window.onclick = function(event) {
 document.getElementById('city-dropdown').addEventListener('change', function() {
   console.log('city changed:', this.value)
   pausePlayer();
-  var playing = !audioPlayer.paused;
   if(this.value === 'ottawa') {
     audioPlayer.src = ottawaLink;
-    audioPlayer.load();
-    // store to local storage
     localStorage.setItem('city', 'ottawa');
   } else if(this.value === 'windsor') {
     audioPlayer.src = windsorLink;
-    audioPlayer.load();
     localStorage.setItem('city', 'windsor');
   } else if(this.value === 'st-johns') {
     audioPlayer.src = stJohnsLink;
-    audioPlayer.load();
     localStorage.setItem('city', 'st-johns');
   }
+  audioPlayer.load();
+  pausePlayer();
   console.log('audio player source:', audioPlayer.src)
 });
 
