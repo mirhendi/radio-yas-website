@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+ <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="volume-x" viewBox="0 0 24 24">
+    <path d="M3 9v6h4L12 15v2l4-4z" fill="#000" fill-rule="evenodd" />
+    <path d="M19 3H5v18h14V3z" fill="#fff" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="12" y1="12" x2="12" y2="16" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </symbol>
+</svg>
