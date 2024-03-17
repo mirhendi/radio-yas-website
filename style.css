@@ -1,4 +1,14 @@
+@font-face {
+  font-family: 'Koodak';
+  src: url('assets/BKoodakBold.woff') format('woff'),
+        url('assets/BKoodakBold.ttf') format('truetype'),
+        url('assets/BKoodakBold.eot') format('eot');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
+  font-family: 'Koodak', fallback, sans-serif;
   background-image: url('assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -96,10 +106,13 @@ body {
 }
 
 h1 {
-  font-family: 'Tahoma', sans-serif;
+  /* font-family: 'Inter', sans-serif; */
   font-size: 30px;
   color: #BF0844;
-
+  background-color: #b99999;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
 }
 
 #volume-logo {
@@ -171,10 +184,6 @@ backgraound D9D9D9 with 50% don't show drop down pointer
 the fond of this should be Inter size 32*/
 
 .dropdown {
-  /* Use the Inter font in your CSS rules */
-  .selector {
-    font-family: 'Inter', sans-serif;
-  }
   font-size: 12px;
   color: #BF0844;
   background-color: #D9D9D9;
