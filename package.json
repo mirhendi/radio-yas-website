@@ -1,0 +1,16 @@
+{
+  "name": "radio-yas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "PrayTimes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify script.js -o bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "praytimes": "^0.0.5"
+  }
+}
