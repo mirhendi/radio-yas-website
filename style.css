@@ -11,7 +11,7 @@ body {
   font-family: 'Koodak', fallback, sans-serif;
   background-image: url('assets/background-zohor-story.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-attachment: fixed;
   background-position: center;
   display: flex;
