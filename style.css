@@ -79,7 +79,14 @@ body {
 }
 
 .time-remaining {
-  font-family: 'Tahoma', sans-serif;
+  font-family: 'Koodak', sans-serif;
+  font-size: 20px;
+  color: white;
+  padding: 20px;
+}
+
+.time-left {
+  font-family: 'Koodak', sans-serif;
   font-size: 20px;
   color: white;
   padding: 20px;
@@ -133,7 +140,7 @@ h1 {
 }
 
 .Text {
-  font-family: 'Tahoma', sans-serif;
+  font-family: 'Koodak', sans-serif;
   font-size: 20px;
   color: white;
 }
