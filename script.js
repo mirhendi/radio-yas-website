@@ -215,7 +215,7 @@ document
 // if it does set the dropdown to that value
 // else set the dropdown to ottawa
 // and set the audio player source to based on the value of city
-city = localStorage.getItem("city") || 'ottawa';
+city = localStorage.getItem("city") || 'st-johns';
 document.getElementById("city-dropdown").value = city;
 calendar(city);
 audioPlayer.src = citiesInfo[city].link;
