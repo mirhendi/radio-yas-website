@@ -856,7 +856,7 @@ function calendar(city) {
     var city = localStorage.getItem("city") || 'ottawa';
     calcNextPrayerTime(times, city);
   }, 10000);
-  document.getElementById("table").innerHTML = html;
+  // document.getElementById("table").innerHTML = html;
 }
 
  function calcNextPrayerTime(times, city) {
@@ -875,8 +875,8 @@ function calendar(city) {
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
     tempTime.setSeconds(0);
-    console.log('temp Date:', tempTime.toLocaleTimeString())
-    console.log("key:", key, times[key], tempTime > dateNow);
+    // console.log('temp Date:', tempTime.toLocaleTimeString())
+    // console.log("key:", key, times[key], tempTime > dateNow);
     if (tempTime > dateNow) {
       nextKey = key;
       nextIndex = index;
@@ -892,7 +892,7 @@ function calendar(city) {
   mString = minutes < 10 ? "0" + minutes : minutes;
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
-  timeLeft.innerHTML = `<p id="left-time">${leftTimeString}</p>`;
+  // timeLeft.innerHTML = `<p id="left-time">${leftTimeString}</p>`;
   console.log("city:", city, "next key:", nextKey, nextIndex, ' diff:', hours, minutes);
 };
 
