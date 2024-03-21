@@ -78,14 +78,14 @@ var defaultCity = "st-johns";
 let intervalId = null;
 var citiesInfo = {
   ottawa: {
-    coords: [45.4215, -75.6972],
+    coords: [45.3192, -75.6692],
     timeZoneDiff: -5,
     text: "اتاوا",
     timeZone: "America/Toronto",
     link: "https://azuracast.radio-yas.com:8000/radio.mp3",
   },
   windsor: {
-    coords: [42.3149, -83.0364],
+    coords: [42.2660, -82.9607],
     timeZoneDiff: -5,
     text: "ویندزور",
     timeZone: "America/Toronto",
@@ -280,18 +280,22 @@ function calcNextPrayerTime(times, city) {
   const minutes = Math.floor((diff % 3600000) / 60000);
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
-  const itsLate = hours == 0 && minutes < 4;
+  const itsLate = hours == 0 && minutes < 4 && minutes > 0;
   const itsEventTime = hours == 0 && minutes == 0;
-  if(itsLate) {
+  if (itsLate) {
     style = `color: red; animation: blinker 1s linear infinite;`;
-  } else if (itsEventTime){
+  } else if (itsEventTime) {
     style = `color: green;`;
   } else {
     style = `color: black;`;
   }
   console.log("style:", style);
+
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
+  if (itsEventTime) {
+    leftTimeString = persList[nextIndex];
+  }
   console.log("شهر: ", citiesInfo[city].text);
   timeLeft.innerHTML = `
     <text style="${style}">${leftTimeString}</text>
@@ -347,7 +351,12 @@ const updateBackground = () => {
 // and set the audio player source to based on the value of city
 const pageLoad = () => {
   const hijriDate = getHijriDate();
-  console.log("Today is:", hijriDate.getDate(), 'of', hijriMonths[hijriDate.getMonth()-1]);
+  console.log(
+    "Today is:",
+    hijriDate.getDate(),
+    "of",
+    hijriMonths[hijriDate.getMonth() - 1]
+  );
   var city = getCity();
   console.log("default city:", city);
   document.getElementById("city-dropdown").value = city;
