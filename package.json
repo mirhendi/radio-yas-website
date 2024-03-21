@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "hijri-date": "^0.2.2",
+    "jalaali-js": "^1.2.6",
+    "moment-jalaali": "^0.10.0",
     "praytimes": "^0.0.5"
   }
 }
