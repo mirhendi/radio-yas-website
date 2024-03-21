@@ -1,3 +1,17 @@
+require('hijri-date');
+let currentDate = new Date();
+// Shia Ramadan Moonsighting factor in Canada 2024
+const smicf = -2;
+currentDate.setDate(currentDate.getDate() + smicf);
+let hijriDate = currentDate.toHijri();
+console.log('hijri date:', hijriDate.getDate());
+setInterval(() => {
+  let currentDate = new Date();
+  // Shia Moonsighting in Canada factor
+  currentDate.setDate(currentDate.getDate() + smicf);
+  hijriDate = currentDate.toHijri();
+}, 1000 * 60 * 60 * 24);
+
 const audioPlayer = document.getElementById("audio-player");
 const playlistItems = document.getElementById("playlist-items");
 
@@ -245,6 +259,29 @@ document
     console.log("audio player source:", audioPlayer.src);
   });
 
+const imamHasanBirthdays = () => {
+  const month = hijriDate.getMonth();
+  const date = hijriDate.getDate();
+  return month == 9 && date >= 14 && date <= 16
+}
+
+const imamAliDays = () => {
+  const month = hijriDate.getMonth();
+  const day = hijriDate.getDate();
+  return month == 9 && day > 16 && day < 22
+}
+const updateBackground = () => {
+
+  // set body backgraound image based on the current date
+  let imageString = ""
+  if (imamHasanBirthdays()) {
+     imageString = "url('assets/back-imam-hasan.jpg')";    
+  } else {
+    imageString = "url('assets/back-new-year.jpg')";    
+  }
+  document.body.style.backgroundImage = imageString;
+}  
+
 // on page load check if the local storage has a city value
 // if it does set the dropdown to that value
 // else set the dropdown to ottawa
@@ -256,6 +293,7 @@ const pageLoad = () => {
   calendar(city);
   audioPlayer.src = citiesInfo[city].link;
   console.log("audio player source:", audioPlayer.src);
+  updateBackground()
 }
 
 pageLoad();

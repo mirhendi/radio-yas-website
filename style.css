@@ -14,7 +14,6 @@
 body {
   font-family: 'Koodak', fallback, sans-serif;
   font-size: 20px;
-  background-image: url('assets/background-zohor-story.jpg');
   background-repeat: no-repeat;
   background-size: contain;
   background-attachment: fixed;
