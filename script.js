@@ -159,7 +159,7 @@ function calendar(city) {
   var dst = dateNow.getMonth()+1 >= 4 || dateNow.getMonth()+1 == 3 & dateNow.getDate() >= 10 ? 1 : 0;
   console.log("month:", dateNow.getMonth(), ' day:', dateNow.getDate(), " dst:", dst);
   var cityInfo = citiesInfo[city];
-  var times = prayTimes.getTimes(dateNow, cityInfo.coords, cityInfo.timezone, dst,  );
+  var times = prayTimes.getTimes(dateNow, cityInfo.coords, citiesInfo.timeZoneDiff, dst,  );
   var list = ["Fajr", "Sunrise", "Dhuhr", "Sunset", "Maghrib", "Midnight"];
   var persList = ["اذان صبح", "طلوع آفتاب", "اذان ظهر", "غروب آفتاب", "اذان مغرب", "نیمه شب"]
   var html = '<table id="timetable">';
@@ -214,11 +214,14 @@ function calendar(city) {
   const minutes = Math.floor((diff % 3600000) / 60000);
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
+  const itsLate = hours == 0 && minutes < 4;
+  style = `color: ${itsLate ? "red; animation: blinker 1s linear infinite;" : "black"}`;
+  console.log('style:', style);
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
   console.log("شهر: ", citiesInfo[city].text)
   timeLeft.innerHTML = `
-    <text>${leftTimeString}</text>
+    <text style="${style}">${leftTimeString}</text>
     <text>به افق ${citiesInfo[city].text}</text>`;
   console.log(leftTimeString);
 

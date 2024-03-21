@@ -7,6 +7,10 @@
   font-style: normal;
 }
 
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
 body {
   font-family: 'Koodak', fallback, sans-serif;
   font-size: 20px;
