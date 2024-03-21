@@ -757,14 +757,17 @@ let intervalId = null;
 var citiesInfo = {
   "ottawa": { 
     coords: [45.4215, -75.6972], 
-    timezone: -5,
+    timeZoneDiff: -5,
     text: "اتاوا",
+    timeZone: "America/Toronto",
     link: "https://azuracast.radio-yas.com:8000/radio.mp3"},
-  "windsor": { coords: [42.3149, -83.0364], timezone: -5,
+  "windsor": { coords: [42.3149, -83.0364], timeZoneDiff: -5,
     text: "ویندزور",
+    timeZone: "America/Toronto",
     link: "https://azuracast.radio-yas.com:8010/radio.mp3"},
-  "st-johns": { coords: [47.5615, -52.7126], timezone: -3.5,
+  "st-johns": { coords: [47.5615, -52.7126], timeZoneDiff: -3.5,
     text: "سینت جانز",
+    timeZone: "America/St_Johns",
     link: "https://azuracast.radio-yas.com:8030/radio.mp3"},
 };
 
@@ -877,8 +880,7 @@ function calendar(city) {
   if(intervalId) clearInterval(intervalId);
   intervalId = setInterval(() => {
     var city = getCity();
-    console.log('city:', city)
-    console.log('times:', times.fajr, times.sunrise, times.dhuhr, times.sunset, times.maghrib, times.midnight)
+    console.log('city in interval:', city)
     calcNextPrayerTime(times, city);
   }, 5000);
   // document.getElementById("table").innerHTML = html;
@@ -903,9 +905,6 @@ function calendar(city) {
     if(key === 'midnight' && tempTime.getHours() == 0) {
       tempTime.setDate(tempTime.getDate() + 1);
     }
-    console.log('temp Date:', tempTime.toLocaleTimeString(), 'diff:', tempTime - dateNow);
-    // console.log('temp Date:', tempTime.toLocaleTimeString())
-    // console.log("key:", key, times[key], tempTime > dateNow);
     if (tempTime > dateNow) {
       nextKey = key;
       nextIndex = index;
@@ -921,11 +920,10 @@ function calendar(city) {
   mString = minutes < 10 ? "0" + minutes : minutes;
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
-  console.log("city: ", city, "info:", citiesInfo[city])
+  console.log("شهر: ", citiesInfo[city].text)
   timeLeft.innerHTML = `
     <text>${leftTimeString}</text>
     <text>به افق ${citiesInfo[city].text}</text>`;
-  console.log("city:", city, "next key:", nextKey, nextIndex, ' diff:', hours, minutes);
   console.log(leftTimeString);
 
 };
@@ -954,7 +952,7 @@ document
 // and set the audio player source to based on the value of city
 const pageLoad = () => {
   var city = getCity();
-  console.log('!!! city:', city)
+  console.log('default city:', city)
   document.getElementById("city-dropdown").value = city;
   calendar(city);
   audioPlayer.src = citiesInfo[city].link;
