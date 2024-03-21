@@ -281,9 +281,14 @@ function calcNextPrayerTime(times, city) {
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
   const itsLate = hours == 0 && minutes < 4;
-  style = `color: ${
-    itsLate ? "red; animation: blinker 1s linear infinite;" : "black"
-  }`;
+  const itsEventTime = hours == 0 && minutes == 0;
+  if(itsLate) {
+    style = `color: red; animation: blinker 1s linear infinite;`;
+  } else if (itsEventTime){
+    style = `color: green;`;
+  } else {
+    style = `color: black;`;
+  }
   console.log("style:", style);
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
