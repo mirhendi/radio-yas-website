@@ -740,7 +740,7 @@ function getUpcomingPlaylist() {
     .catch((error) => console.error(error));
 }
 // 
-getCurrentSong(); // Fetch and play the current song on page load
+// getCurrentSong(); // Fetch and play the current song on page load
 // getUpcomingPlaylist(); // Uncomment to fetch and display the upcoming playlist
 
 // Optional: Add event listeners for user interactions (e.g., play/pause, volume control)
@@ -752,19 +752,21 @@ var playBtn = document.getElementById("play-pause-button");
 var volumeBtn = document.getElementById("volume-button");
 var playingTitle = document.getElementById("playing-title");
 var timeLeft = document.getElementById("time-left");
+var defaultCity = "st-johns";
+let intervalId = null;
 var citiesInfo = {
   "ottawa": { 
     coords: [45.4215, -75.6972], 
     timezone: -5,
+    text: "اتاوا",
     link: "https://azuracast.radio-yas.com:8000/radio.mp3"},
   "windsor": { coords: [42.3149, -83.0364], timezone: -5,
+    text: "ویندزور",
     link: "https://azuracast.radio-yas.com:8010/radio.mp3"},
   "st-johns": { coords: [47.5615, -52.7126], timezone: -3.5,
+    text: "سینت جانز",
     link: "https://azuracast.radio-yas.com:8030/radio.mp3"},
 };
-var ottawaLink = "https://azuracast.radio-yas.com:8000/radio.mp3";
-var windsorLink = "https://azuracast.radio-yas.com:8010/radio.mp3";
-var stJohnsLink = "https://azuracast.radio-yas.com:8030/radio.mp3";
 
 const pausePlayer = () => {
   audioPlayer.pause();
@@ -774,11 +776,30 @@ const pausePlayer = () => {
 
 const playPlayer = () => {
   audioPlayer.load();
-  audioPlayer.play();
+  audioPlayer.play(); 
   playBtn.innerHTML =
     '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
   // playingTitle.innerHTML = audioPlayer.src.split('/').pop();
 };
+
+const getCity = () => {
+  try {
+    const storedCity = !!localStorage.getItem('city') && localStorage.getItem('city'); 
+    if (!storedCity) {
+      !!localStorage.setItem('city', defaultCity)
+      return defaultCity;
+    } else {
+      return storedCity;
+    }
+  }
+  catch {
+    return defaultCity;
+  }
+}
+
+const setCity = (city) => {
+  localStorage.setItem('city', city);
+}
 
 playBtn.onclick = function () {
   // change the icon to pause or vice versa
@@ -833,12 +854,13 @@ window.onclick = function (event) {
 
 function calendar(city) {
   var PT = require("praytimes");
-  var prayTimes = new PT('Tehran');
+  // Calculation method: "University of Tehran"
+  var prayTimes = new PT('Tehran'); 
   var dateNow = new Date(); // today
   var dst = dateNow.getMonth()+1 >= 4 || dateNow.getMonth()+1 == 3 & dateNow.getDate() >= 10 ? 1 : 0;
   console.log("month:", dateNow.getMonth(), ' day:', dateNow.getDate(), " dst:", dst);
-  var city = citiesInfo[city];
-  var times = prayTimes.getTimes(dateNow, city.coords, city.timezone, dst,  );
+  var cityInfo = citiesInfo[city];
+  var times = prayTimes.getTimes(dateNow, cityInfo.coords, cityInfo.timezone, dst,  );
   var list = ["Fajr", "Sunrise", "Dhuhr", "Sunset", "Maghrib", "Midnight"];
   var persList = ["اذان صبح", "طلوع آفتاب", "اذان ظهر", "غروب آفتاب", "اذان مغرب", "نیمه شب"]
   var html = '<table id="timetable">';
@@ -851,11 +873,14 @@ function calendar(city) {
   }
   html += "</table>";
   // call calcNextPrayerTime every 1 second
-  calcNextPrayerTime(times);
-  setInterval(() => {
-    var city = localStorage.getItem("city") || 'ottawa';
+  calcNextPrayerTime(times, city);
+  if(intervalId) clearInterval(intervalId);
+  intervalId = setInterval(() => {
+    var city = getCity();
+    console.log('city:', city)
+    console.log('times:', times.fajr, times.sunrise, times.dhuhr, times.sunset, times.maghrib, times.midnight)
     calcNextPrayerTime(times, city);
-  }, 10000);
+  }, 5000);
   // document.getElementById("table").innerHTML = html;
 }
 
@@ -865,8 +890,8 @@ function calendar(city) {
   var persList = ["اذان صبح", "طلوع آفتاب", "اذان ظهر", "غروب آفتاب", "اذان مغرب", "نیمه شب"]
   var nextIndex = Object.values(times).find((date) => date > dateNow);
   var nextKey = Object.keys(times)[nextIndex];
-  nextKey = "fajr";
-  nextIndex = 0;
+  nextKey = "Fajr";
+  nextIndex = list.size - 1;
   nextTime = dateNow
   list.some((key, index) => {
     key = key.toLowerCase();
@@ -875,6 +900,10 @@ function calendar(city) {
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
     tempTime.setSeconds(0);
+    if(key === 'midnight' && tempTime.getHours() == 0) {
+      tempTime.setDate(tempTime.getDate() + 1);
+    }
+    console.log('temp Date:', tempTime.toLocaleTimeString(), 'diff:', tempTime - dateNow);
     // console.log('temp Date:', tempTime.toLocaleTimeString())
     // console.log("key:", key, times[key], tempTime > dateNow);
     if (tempTime > dateNow) {
@@ -892,8 +921,13 @@ function calendar(city) {
   mString = minutes < 10 ? "0" + minutes : minutes;
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
-  // timeLeft.innerHTML = `<p id="left-time">${leftTimeString}</p>`;
+  console.log("city: ", city, "info:", citiesInfo[city])
+  timeLeft.innerHTML = `
+    <text>${leftTimeString}</text>
+    <text>به افق ${citiesInfo[city].text}</text>`;
   console.log("city:", city, "next key:", nextKey, nextIndex, ' diff:', hours, minutes);
+  console.log(leftTimeString);
+
 };
 
   // on city-dropdown change event if the value is ottawa set
@@ -906,9 +940,8 @@ document
     console.log("city changed:", this.value);
     pausePlayer();
     city = this.value;
-    localStorage.setItem("city", city);
+    setCity(city);
     calendar(city);
-    console.log("city:", city, " link:", citiesInfo[city].link)
     audioPlayer.src = citiesInfo[city].link;
     audioPlayer.load();
     pausePlayer();
@@ -919,10 +952,14 @@ document
 // if it does set the dropdown to that value
 // else set the dropdown to ottawa
 // and set the audio player source to based on the value of city
-city = localStorage.getItem("city") || 'st-johns';
-document.getElementById("city-dropdown").value = city;
-calendar(city);
-audioPlayer.src = citiesInfo[city].link;
-console.log("audio player source:", audioPlayer.src);
+const pageLoad = () => {
+  var city = getCity();
+  console.log('!!! city:', city)
+  document.getElementById("city-dropdown").value = city;
+  calendar(city);
+  audioPlayer.src = citiesInfo[city].link;
+  console.log("audio player source:", audioPlayer.src);
+}
 
+pageLoad();
 },{"praytimes":1}]},{},[2]);

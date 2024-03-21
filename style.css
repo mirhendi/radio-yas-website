@@ -9,6 +9,7 @@
 
 body {
   font-family: 'Koodak', fallback, sans-serif;
+  font-size: 20px;
   background-image: url('assets/background-zohor-story.jpg');
   background-repeat: no-repeat;
   background-size: contain;
@@ -89,10 +90,10 @@ body {
 } */
 
 .time-left {
-  font-family: 'Koodak', sans-serif;
-  font-size: 20px;
-  color: white;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .round-button {
@@ -140,12 +141,6 @@ h1 {
 }
 #audio-player {
   display: none;
-}
-
-.Text {
-  font-family: 'Koodak', sans-serif;
-  font-size: 20px;
-  color: rgb(18, 16, 16);
 }
 
 .modal {
