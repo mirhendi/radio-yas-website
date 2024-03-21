@@ -1,16 +1,28 @@
-require('hijri-date');
-let currentDate = new Date();
-// Shia Ramadan Moonsighting factor in Canada 2024
-const smicf = -2;
-currentDate.setDate(currentDate.getDate() + smicf);
-let hijriDate = currentDate.toHijri();
-console.log('hijri date:', hijriDate.getDate());
-setInterval(() => {
+require("hijri-date");
+
+const hijriMonths = [
+  "Muharram",
+  "Safar",
+  "Rabi al-Awwal",
+  "Rabi al-Thani",
+  "Jumada al-Awwal",
+  "Jumada al-Thani",
+  "Rajab",
+  "Sha'ban",
+  "Ramadan",
+  "Shawwal",
+  "Dhu al-Qi'dah",
+  "Dhu al-Hijjah",
+];
+
+const getHijriDate = () => {
   let currentDate = new Date();
-  // Shia Moonsighting in Canada factor
+  // Shia Ramadan Moonsighting factor in Canada 2024
+  const smicf = -2;
   currentDate.setDate(currentDate.getDate() + smicf);
-  hijriDate = currentDate.toHijri();
-}, 1000 * 60 * 60 * 24);
+  let hijriDate = currentDate.toHijri();
+  return hijriDate;
+};
 
 const audioPlayer = document.getElementById("audio-player");
 const playlistItems = document.getElementById("playlist-items");
@@ -49,7 +61,7 @@ function getUpcomingPlaylist() {
     })
     .catch((error) => console.error(error));
 }
-// 
+//
 // getCurrentSong(); // Fetch and play the current song on page load
 // getUpcomingPlaylist(); // Uncomment to fetch and display the upcoming playlist
 
@@ -65,20 +77,27 @@ var timeLeft = document.getElementById("time-left");
 var defaultCity = "st-johns";
 let intervalId = null;
 var citiesInfo = {
-  "ottawa": { 
-    coords: [45.4215, -75.6972], 
+  ottawa: {
+    coords: [45.4215, -75.6972],
     timeZoneDiff: -5,
     text: "اتاوا",
     timeZone: "America/Toronto",
-    link: "https://azuracast.radio-yas.com:8000/radio.mp3"},
-  "windsor": { coords: [42.3149, -83.0364], timeZoneDiff: -5,
+    link: "https://azuracast.radio-yas.com:8000/radio.mp3",
+  },
+  windsor: {
+    coords: [42.3149, -83.0364],
+    timeZoneDiff: -5,
     text: "ویندزور",
     timeZone: "America/Toronto",
-    link: "https://azuracast.radio-yas.com:8010/radio.mp3"},
-  "st-johns": { coords: [47.5615, -52.7126], timeZoneDiff: -3.5,
+    link: "https://azuracast.radio-yas.com:8010/radio.mp3",
+  },
+  "st-johns": {
+    coords: [47.5615, -52.7126],
+    timeZoneDiff: -3.5,
     text: "سینت جانز",
     timeZone: "America/St_Johns",
-    link: "https://azuracast.radio-yas.com:8030/radio.mp3"},
+    link: "https://azuracast.radio-yas.com:8030/radio.mp3",
+  },
 };
 
 const pausePlayer = () => {
@@ -89,7 +108,7 @@ const pausePlayer = () => {
 
 const playPlayer = () => {
   audioPlayer.load();
-  audioPlayer.play(); 
+  audioPlayer.play();
   playBtn.innerHTML =
     '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
   // playingTitle.innerHTML = audioPlayer.src.split('/').pop();
@@ -97,22 +116,22 @@ const playPlayer = () => {
 
 const getCity = () => {
   try {
-    const storedCity = !!localStorage.getItem('city') && localStorage.getItem('city'); 
+    const storedCity =
+      !!localStorage.getItem("city") && localStorage.getItem("city");
     if (!storedCity) {
-      !!localStorage.setItem('city', defaultCity)
+      !!localStorage.setItem("city", defaultCity);
       return defaultCity;
     } else {
       return storedCity;
     }
-  }
-  catch {
+  } catch {
     return defaultCity;
   }
-}
+};
 
 const setCity = (city) => {
-  localStorage.setItem('city', city);
-}
+  localStorage.setItem("city", city);
+};
 
 playBtn.onclick = function () {
   // change the icon to pause or vice versa
@@ -168,17 +187,43 @@ window.onclick = function (event) {
 function calendar(city) {
   var PT = require("praytimes");
   // Calculation method: "University of Tehran"
-  var prayTimes = new PT('Tehran'); 
+  var prayTimes = new PT("Tehran");
   var dateNow = new Date(); // today
-  var dst = dateNow.getMonth()+1 >= 4 || dateNow.getMonth()+1 == 3 & dateNow.getDate() >= 10 ? 1 : 0;
-  console.log("month:", dateNow.getMonth(), ' day:', dateNow.getDate(), " dst:", dst);
+  var dst =
+    dateNow.getMonth() + 1 >= 4 ||
+    (dateNow.getMonth() + 1 == 3) & (dateNow.getDate() >= 10)
+      ? 1
+      : 0;
+  console.log(
+    "month:",
+    dateNow.getMonth(),
+    " day:",
+    dateNow.getDate(),
+    " dst:",
+    dst
+  );
   var cityInfo = citiesInfo[city];
-  var times = prayTimes.getTimes(dateNow, cityInfo.coords, citiesInfo.timeZoneDiff, dst,  );
+  var times = prayTimes.getTimes(
+    dateNow,
+    cityInfo.coords,
+    citiesInfo.timeZoneDiff,
+    dst
+  );
   var list = ["Fajr", "Sunrise", "Dhuhr", "Sunset", "Maghrib", "Midnight"];
-  var persList = ["اذان صبح", "طلوع آفتاب", "اذان ظهر", "غروب آفتاب", "اذان مغرب", "نیمه شب"]
+  var persList = [
+    "اذان صبح",
+    "طلوع آفتاب",
+    "اذان ظهر",
+    "غروب آفتاب",
+    "اذان مغرب",
+    "نیمه شب",
+  ];
   var html = '<table id="timetable">';
-  const dateString = dateNow.toLocaleDateString('en-US', 
-  { year: 'numeric', month: 'short', day: 'numeric' })
+  const dateString = dateNow.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
   html += '<tr><th colspan="2">' + dateString + "</th></tr>";
   for (var i in list) {
     html += "<tr><td>" + persList[i] + "</td>";
@@ -187,24 +232,31 @@ function calendar(city) {
   html += "</table>";
   // call calcNextPrayerTime every 1 second
   calcNextPrayerTime(times, city);
-  if(intervalId) clearInterval(intervalId);
+  if (intervalId) clearInterval(intervalId);
   intervalId = setInterval(() => {
     var city = getCity();
-    console.log('city in interval:', city)
+    console.log("city in interval:", city);
     calcNextPrayerTime(times, city);
   }, 5000);
   // document.getElementById("table").innerHTML = html;
 }
 
- function calcNextPrayerTime(times, city) {
+function calcNextPrayerTime(times, city) {
   var dateNow = new Date();
   var list = ["Fajr", "Sunrise", "Dhuhr", "Sunset", "Maghrib", "Midnight"];
-  var persList = ["اذان صبح", "طلوع آفتاب", "اذان ظهر", "غروب آفتاب", "اذان مغرب", "نیمه شب"]
+  var persList = [
+    "اذان صبح",
+    "طلوع آفتاب",
+    "اذان ظهر",
+    "غروب آفتاب",
+    "اذان مغرب",
+    "نیمه شب",
+  ];
   var nextIndex = Object.values(times).find((date) => date > dateNow);
   var nextKey = Object.keys(times)[nextIndex];
   nextKey = "Fajr";
   nextIndex = list.size - 1;
-  nextTime = dateNow
+  nextTime = dateNow;
   list.some((key, index) => {
     key = key.toLowerCase();
     var timeStrings = times[key].split(":");
@@ -212,7 +264,7 @@ function calendar(city) {
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
     tempTime.setSeconds(0);
-    if(key === 'midnight' && tempTime.getHours() == 0) {
+    if (key === "midnight" && tempTime.getHours() == 0) {
       tempTime.setDate(tempTime.getDate() + 1);
     }
     if (tempTime > dateNow) {
@@ -229,19 +281,20 @@ function calendar(city) {
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
   const itsLate = hours == 0 && minutes < 4;
-  style = `color: ${itsLate ? "red; animation: blinker 1s linear infinite;" : "black"}`;
-  console.log('style:', style);
+  style = `color: ${
+    itsLate ? "red; animation: blinker 1s linear infinite;" : "black"
+  }`;
+  console.log("style:", style);
   var leftTimeString = `${hString}:${mString}`;
   leftTimeString += ` تا ${persList[nextIndex]}`;
-  console.log("شهر: ", citiesInfo[city].text)
+  console.log("شهر: ", citiesInfo[city].text);
   timeLeft.innerHTML = `
     <text style="${style}">${leftTimeString}</text>
     <text>به افق ${citiesInfo[city].text}</text>`;
   console.log(leftTimeString);
+}
 
-};
-
-  // on city-dropdown change event if the value is ottawa set
+// on city-dropdown change event if the value is ottawa set
 // the audio player source to ottawaLink
 // else if the value is windsor set the audio player source to windsorLink
 // else if the value is st-johns set the audio player source to stJohnsLink
@@ -260,40 +313,43 @@ document
   });
 
 const imamHasanBirthdays = () => {
+  const hijriDate = getHijriDate();
   const month = hijriDate.getMonth();
   const date = hijriDate.getDate();
-  return month == 9 && date >= 14 && date <= 16
-}
+  return month == 9 && date >= 14 && date <= 16;
+};
 
 const imamAliDays = () => {
+  const hijriDate = getHijriDate();
   const month = hijriDate.getMonth();
   const day = hijriDate.getDate();
-  return month == 9 && day > 16 && day < 22
-}
+  return month == 9 && day > 16 && day < 22;
+};
 const updateBackground = () => {
-
   // set body backgraound image based on the current date
-  let imageString = ""
+  let imageString = "";
   if (imamHasanBirthdays()) {
-     imageString = "url('assets/back-imam-hasan.jpg')";    
+    imageString = "url('assets/back-imam-hasan.jpg')";
   } else {
-    imageString = "url('assets/back-new-year.jpg')";    
+    imageString = "url('assets/back-new-year.jpg')";
   }
   document.body.style.backgroundImage = imageString;
-}  
+};
 
 // on page load check if the local storage has a city value
 // if it does set the dropdown to that value
 // else set the dropdown to ottawa
 // and set the audio player source to based on the value of city
 const pageLoad = () => {
+  const hijriDate = getHijriDate();
+  console.log("Today is:", hijriDate.getDate(), 'of', hijriMonths[hijriDate.getMonth()-1]);
   var city = getCity();
-  console.log('default city:', city)
+  console.log("default city:", city);
   document.getElementById("city-dropdown").value = city;
   calendar(city);
   audioPlayer.src = citiesInfo[city].link;
   console.log("audio player source:", audioPlayer.src);
-  updateBackground()
-}
+  updateBackground();
+};
 
 pageLoad();
