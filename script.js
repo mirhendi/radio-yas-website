@@ -102,11 +102,14 @@ var citiesInfo = {
 
 const pausePlayer = () => {
   audioPlayer.pause();
+  // clear source of the audio player
+  audioPlayer.src = "";
   playBtn.innerHTML =
     '<img id="play-pause-logo" src="assets/play.svg" alt="Play/Pause">';
 };
 
 const playPlayer = () => {
+  audioPlayer.src = citiesInfo[getCity()].link;
   audioPlayer.load();
   audioPlayer.play();
   playBtn.innerHTML =
