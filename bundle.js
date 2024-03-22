@@ -1758,7 +1758,7 @@ var citiesInfo = {
     link: "https://azuracast.radio-yas.com:8000/radio.mp3",
   },
   windsor: {
-    coords: [42.2660, -82.9607],
+    coords: [42.266, -82.9607],
     timeZoneDiff: -5,
     text: "ویندزور",
     timeZone: "America/Toronto",
@@ -1919,37 +1919,44 @@ function calendar(city) {
 
 function calcNextPrayerTime(times, city) {
   var dateNow = new Date();
-  var list = ["Fajr", "Sunrise", "Dhuhr", "Sunset", "Maghrib", "Midnight"];
-  var persList = [
-    "اذان صبح",
-    "طلوع آفتاب",
-    "اذان ظهر",
-    "غروب آفتاب",
-    "اذان مغرب",
-    "نیمه شب",
+  var list = [
+    { key: "Fajr", persian: "اذان صبح", timeStr: times.fajr },
+    { key: "Sunrise", persian: "طلوع آفتاب", timeStr: times.sunrise },
+    { key: "Dhuhr", persian: "اذان ظهر", timeStr: times.dhuhr },
+    { key: "Sunset", persian: "غروب آفتاب", timeStr: times.sunset },
+    { key: "Maghrib", persian: "اذان مغرب", timeStr: times.maghrib },
+    { key: "Midnight", persian: "نیمه شب", timeStr: times.midnight },
   ];
-  var nextIndex = Object.values(times).find((date) => date > dateNow);
-  var nextKey = Object.keys(times)[nextIndex];
-  nextKey = "Fajr";
-  nextIndex = list.size - 1;
-  nextTime = dateNow;
-  list.some((key, index) => {
-    key = key.toLowerCase();
-    var timeStrings = times[key].split(":");
+
+  list.map((item) => {
+    var timeStrings = item.timeStr.split(":");
     var tempTime = new Date();
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
     tempTime.setSeconds(0);
-    if (key === "midnight" && tempTime.getHours() == 0) {
+    if (
+      item.key === "Midnight" &&
+      tempTime.getHours() < 1 &&
+      dateNow.getHours() <= 23
+    ) {
       tempTime.setDate(tempTime.getDate() + 1);
     }
-    if (tempTime > dateNow) {
-      nextKey = key;
-      nextIndex = index;
-      nextTime = tempTime;
+    item.time = tempTime;
+  });
+  // console.log("list:", list);
+  const nextIndex = list.findIndex((item, index) => {
+    if (item.time > dateNow) {
+      nextKey = item.key;
+      nextTime = item.time;
       return true;
     }
   });
+  if (nextIndex === -1) {
+    nextIndex = 0;
+    nextKey = list[0].key;
+    list[0].time.setDate(list[0].time.getDate() + 1);
+    nextTime = list[0].time;
+  }
   const diff = nextTime - dateNow;
   // convert diff to hours and minutes and seconds
   const hours = Math.floor(diff / 3600000);
@@ -1959,7 +1966,7 @@ function calcNextPrayerTime(times, city) {
   const itsLate = hours == 0 && minutes < 4 && minutes > 0;
   const itsEventTime = hours == 0 && minutes == 0;
   if (itsLate) {
-    style = `color: red; animation: blinker 1s linear infinite;`;
+    style = `color: red; animation: blinker 3s linear infinite;`;
   } else if (itsEventTime) {
     style = `color: green;`;
   } else {
@@ -1968,15 +1975,15 @@ function calcNextPrayerTime(times, city) {
   console.log("style:", style);
 
   var leftTimeString = `${hString}:${mString}`;
-  leftTimeString += ` تا ${persList[nextIndex]}`;
+  leftTimeString += ` تا ${list[nextIndex].persian}`;
   if (itsEventTime) {
-    leftTimeString = persList[nextIndex];
+    leftTimeString = list[nextIndex].persian;
   }
   console.log("شهر: ", citiesInfo[city].text);
   timeLeft.innerHTML = `
     <text style="${style}">${leftTimeString}</text>
     <text>به افق ${citiesInfo[city].text}</text>`;
-  console.log(leftTimeString);
+  // console.log(leftTimeString);
 }
 
 // on city-dropdown change event if the value is ottawa set
