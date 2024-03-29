@@ -1749,6 +1749,8 @@ var playingTitle = document.getElementById("playing-title");
 var timeLeft = document.getElementById("time-left");
 var defaultCity = "st-johns";
 let intervalId = null;
+let playButtonClicked = false;
+let pauseButtonClicked = false;
 var citiesInfo = {
   ottawa: {
     coords: [45.3192, -75.6692],
@@ -1782,6 +1784,7 @@ const pausePlayer = () => {
 };
 
 const playPlayer = () => {
+  
   audioPlayer.src = citiesInfo[getCity()].link;
   audioPlayer.load();
   audioPlayer.play();
@@ -1789,6 +1792,31 @@ const playPlayer = () => {
     '<img id="play-pause-logo" src="assets/pause.svg" alt="Play/Pause">';
   // playingTitle.innerHTML = audioPlayer.src.split('/').pop();
 };
+
+audioPlayer.addEventListener('play', () => {
+  // Force reload of the stream to sync up
+  console.log('play event fired, playButtonClicked:', playButtonClicked);
+  if(!playButtonClicked) {
+    audioPlayer.src = audioPlayer.src;
+    audioPlayer.load();
+    audioPlayer.play();
+  } else {
+    playButtonClicked = false;
+  }
+});
+
+audioPlayer.addEventListener('pause', () => {
+  // Force reload of the stream to sync up
+  console.log('pause event fired, pauseButtonClicked:', pauseButtonClicked);
+  if(!pauseButtonClicked) {
+    audioPlayer.src = audioPlayer.src;
+    audioPlayer.load();
+    audioPlayer.pause();
+  } else {
+    pauseButtonClicked = false;
+  }
+});
+
 
 const getCity = () => {
   try {
@@ -1813,8 +1841,10 @@ playBtn.onclick = function () {
   // change the icon to pause or vice versa
   console.log("play button clicked");
   if (audioPlayer.paused) {
+    playButtonClicked = true;
     playPlayer();
   } else {
+    pauseButtonClicked = true;
     pausePlayer();
   }
 };
@@ -1927,13 +1957,13 @@ function calcNextPrayerTime(times, city) {
     { key: "Maghrib", persian: "اذان مغرب", timeStr: times.maghrib },
     { key: "Midnight", persian: "نیمه شب", timeStr: times.midnight },
   ];
+  // console.log('list:', list);
 
   list.map((item) => {
     var timeStrings = item.timeStr.split(":");
     var tempTime = new Date();
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
-    tempTime.setSeconds(0);
     if (
       item.key === "Midnight" &&
       tempTime.getHours() < 1 &&
@@ -1961,6 +1991,7 @@ function calcNextPrayerTime(times, city) {
   // convert diff to hours and minutes and seconds
   const hours = Math.floor(diff / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);
+  // console.log("diff:", diff, "hours:", hours, "minutes:", minutes);
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
   const itsLate = hours == 0 && minutes < 4 && minutes > 0;
