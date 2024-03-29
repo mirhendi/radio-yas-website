@@ -344,11 +344,22 @@ const imamAliDays = () => {
   const day = hijriDate.getDate();
   return month == 9 && day > 16 && day < 22;
 };
+
+const lastGhadrNight = () => {
+  const hijriDate = getHijriDate();
+  const month = hijriDate.getMonth();
+  const day = hijriDate.getDate();
+  return month == 9 && day >= 22 && day <= 23;
+};
 const updateBackground = () => {
   // set body backgraound image based on the current date
   let imageString = "";
   if (imamHasanBirthdays()) {
     imageString = "url('assets/back-imam-hasan.jpg')";
+  } else if(imamAliDays()) {
+    imageString = "url('assets/back-imam-ali.jpg')";
+  } else if (lastGhadrNight()) {
+    imageString = "url('assets/back-ghadr.jpg')";
   } else {
     imageString = "url('assets/back-new-year.jpg')";
   }
