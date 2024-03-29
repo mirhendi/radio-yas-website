@@ -254,13 +254,13 @@ function calcNextPrayerTime(times, city) {
     { key: "Maghrib", persian: "اذان مغرب", timeStr: times.maghrib },
     { key: "Midnight", persian: "نیمه شب", timeStr: times.midnight },
   ];
+  // console.log('list:', list);
 
   list.map((item) => {
     var timeStrings = item.timeStr.split(":");
     var tempTime = new Date();
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
-    tempTime.setSeconds(0);
     if (
       item.key === "Midnight" &&
       tempTime.getHours() < 1 &&
@@ -288,6 +288,7 @@ function calcNextPrayerTime(times, city) {
   // convert diff to hours and minutes and seconds
   const hours = Math.floor(diff / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);
+  // console.log("diff:", diff, "hours:", hours, "minutes:", minutes);
   hString = hours < 10 ? "0" + hours : hours;
   mString = minutes < 10 ? "0" + minutes : minutes;
   const itsLate = hours == 0 && minutes < 4 && minutes > 0;
