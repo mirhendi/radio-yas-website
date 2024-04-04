@@ -382,6 +382,17 @@ const lastGhadrNight = () => {
   const day = hijriDate.getDate();
   return month == 9 && day >= 22 && day <= 23;
 };
+
+const PalDays = () => {
+  const hijriDate = getHijriDate();
+  const month = hijriDate.getMonth();
+  const day = hijriDate.getDate();
+  // get day of the week from Date object
+  const dayOfWeek = new Date().getDay();
+  // if its thursday or friday or Saturday
+  const isAroundFriday = dayOfWeek == 4 || dayOfWeek == 5 || dayOfWeek == 6;
+  return month == 9 && day >= 24 && isAroundFriday;
+};
 const updateBackground = () => {
   // set body backgraound image based on the current date
   let imageString = "";
@@ -391,6 +402,8 @@ const updateBackground = () => {
     imageString = "url('assets/back-imam-ali.jpg')";
   } else if (lastGhadrNight()) {
     imageString = "url('assets/back-ghadr.jpg')";
+  } else if (PalDays()) {
+    imageString = "url('assets/back-ghadr-3.jpg')";
   } else {
     imageString = "url('assets/back-new-year.jpg')";
   }
@@ -407,7 +420,9 @@ const pageLoad = () => {
     "Today is:",
     hijriDate.getDate(),
     "of",
-    hijriMonths[hijriDate.getMonth() - 1]
+    hijriMonths[hijriDate.getMonth() - 1], 
+    " day index:", 
+    new Date().getDate()
   );
   var city = getCity();
   console.log("default city:", city);
