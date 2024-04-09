@@ -68,8 +68,11 @@ function getUpcomingPlaylist() {
 // Optional: Add event listeners for user interactions (e.g., play/pause, volume control)
 
 var modal = document.getElementById("info-modal");
+var pollModal = document.getElementById("poll-modal");
 var infoBtn = document.getElementById("info-button");
+var pollBtn = document.getElementById("poll-button");
 var span = document.getElementById("close-button");
+var pollSpan = document.getElementById("poll-close-button");
 var playBtn = document.getElementById("play-pause-button");
 var volumeBtn = document.getElementById("volume-button");
 var playingTitle = document.getElementById("playing-title");
@@ -215,6 +218,18 @@ window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+};
+
+pollBtn.onclick = function () {
+  pollModal.style.display = "block";
+};
+window.onclick = function (event) {
+  if (event.target == pollModal) {
+    pollModal.style.display = "none";
+  }
+};
+pollSpan.onclick = function () {
+  pollModal.style.display = "none";
 };
 
 function calendar(city) {
@@ -393,6 +408,12 @@ const PalDays = () => {
   const isAroundFriday = dayOfWeek == 4 || dayOfWeek == 5 || dayOfWeek == 6;
   return month == 9 && day >= 24 && isAroundFriday;
 };
+const fetrDays = () => {
+  const hijriDate = getHijriDate();
+  const month = hijriDate.getMonth();
+  const day = hijriDate.getDate();
+  return month == 9 && day >= 29 || month == 10 && day <= 3;
+}
 const updateBackground = () => {
   // set body backgraound image based on the current date
   let imageString = "";
@@ -404,6 +425,8 @@ const updateBackground = () => {
     imageString = "url('assets/back-ghadr.jpg')";
   } else if (PalDays()) {
     imageString = "url('assets/back-ghadr-3.jpg')";
+  } else if (fetrDays()) {
+    imageString = "url('assets/back-fetr.jpg')";
   } else {
     imageString = "url('assets/back-new-year.jpg')";
   }
