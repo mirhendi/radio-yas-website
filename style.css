@@ -105,6 +105,19 @@ body {
   height: 30px;
 }
 
+/* beautiful button that takes attention */
+.poll-button {
+  background-color: #BF0844;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-family: 'Koodak', sans-serif;
+  flex: auto;
+}
+
 .play-button {
   /* border-radius: 50%; */
   width: 70px;
