@@ -10,3 +10,5 @@ Watchify is a tool that automatically rebuilds your code when any monitored file
 "scripts": {
   "watch": "watchify script.js -o bundle.js"
 }
+```
+3. Run `npm run watch` while you're coding to update bundle.js autmatically.
