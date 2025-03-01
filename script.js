@@ -87,22 +87,43 @@ var citiesInfo = {
     timeZoneDiff: -5,
     text: "اتاوا",
     timeZone: "America/Toronto",
-    link: "https://azuracast.radio-yas.com:8000/radio.mp3",
+    link: "https://azuracast.radio-yas.com:8020/radio.mp3",
   },
   windsor: {
     coords: [42.266, -82.9607],
     timeZoneDiff: -5,
     text: "ویندزور",
     timeZone: "America/Toronto",
-    link: "https://azuracast.radio-yas.com:8010/radio.mp3",
+    link: "https://azuracast.radio-yas.com:8030/radio.mp3",
   },
   "st-johns": {
     coords: [47.5615, -52.7126],
     timeZoneDiff: -3.5,
     text: "سینت جانز",
     timeZone: "America/St_Johns",
-    link: "https://azuracast.radio-yas.com:8030/radio.mp3",
+    link: "https://azuracast.radio-yas.com:8010/radio.mp3",
   },
+  "waterloo": {
+    coords: [43.4724, -80.5448],
+    timeZoneDiff: -5,
+    text: "واترلو",
+    timeZone: "America/Toronto",
+    link: "https://azuracast.radio-yas.com:8040/radio.mp3",
+  },
+  "toronto": {
+    coords: [43.6581, -79.3792],
+    timeZoneDiff: -5,
+    text: "تورنتو",
+    timeZone: "America/Toronto",
+    link: "https://azuracast.radio-yas.com:8050/radio.mp3",
+  },
+  "quebec-city": {
+    coords: [46.8130, -71.2053],
+    timeZoneDiff: -5,
+    text: "کبک سیتی",
+    timeZone: "America/Toronto",
+    link: "https://azuracast.radio-yas.com:8060/radio.mp3",
+  }
 };
 
 const pausePlayer = () => {
@@ -453,7 +474,7 @@ const pageLoad = () => {
   calendar(city);
   audioPlayer.src = citiesInfo[city].link;
   console.log("audio player source:", audioPlayer.src);
-  updateBackground();
+  // updateBackground();
 };
 
 pageLoad();
