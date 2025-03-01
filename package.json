@@ -5,7 +5,7 @@
   "main": "PrayTimes.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify script.js -o bundle.js"
+    "watch": "npx watchify script.js -o bundle.js --verbose"
   },
   "keywords": [],
   "author": "",
