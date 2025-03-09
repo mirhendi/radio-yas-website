@@ -1931,9 +1931,10 @@ function calendar(city) {
   // Calculation method: "University of Tehran"
   var prayTimes = new PT("Tehran");
   var dateNow = new Date(); // today
+  // set daylight saving time
   var dst =
     dateNow.getMonth() + 1 >= 4 ||
-    (dateNow.getMonth() + 1 == 3) & (dateNow.getDate() >= 10)
+    (dateNow.getMonth() + 1 == 3) & (dateNow.getDate() >= 9)
       ? 1
       : 0;
   console.log(
@@ -1997,6 +1998,12 @@ function calcNextPrayerTime(times, city) {
 
   list.map((item) => {
     var timeStrings = item.timeStr.split(":");
+  //   fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log('fetch:', data.datetime)
+  //     console.log('Date:', new Date())
+  // });
     var tempTime = new Date();
     tempTime.setHours(timeStrings[0]);
     tempTime.setMinutes(timeStrings[1]);
