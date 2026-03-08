@@ -1934,7 +1934,7 @@ function calendar(city) {
   // set daylight saving time
   var dst =
     dateNow.getMonth() + 1 >= 4 ||
-    (dateNow.getMonth() + 1 == 3) & (dateNow.getDate() >= 9)
+    (dateNow.getMonth() + 1 == 3) & (dateNow.getDate() >= 8)
       ? 1
       : 0;
   console.log(
